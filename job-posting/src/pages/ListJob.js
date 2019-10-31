@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Row, Col, Container, Button, Jumbotron} from 'reactstrap'
+import {Link} from 'react-router-dom'
+import {Row, Col, Container, Button, Jumbotron, Spinner} from 'reactstrap'
 import qs from 'qs'
 class ListJob extends Component {
 
@@ -14,6 +15,8 @@ class ListJob extends Component {
             isLoading:true,
             query:'',
             by: '',
+            sortBy:'',
+            mode:'',
         }
     }
     componentDidMount(){
@@ -29,9 +32,8 @@ class ListJob extends Component {
         })
        
       }
-
       getData = async(page)=>{
-        const allJob = await axios.get(page!==undefined?page:'http://localhost:5000/job/?wordsKey=name&words=ars')
+        const allJob = await axios.get(page!==undefined?page:'http://localhost:5000/job/?')
         .catch(err=>{
           this.setState({ isLoading: false, isError: true })
         })
@@ -47,11 +49,24 @@ class ListJob extends Component {
         const by = e.target.value
         this.setState({by})
       }
-      doSearch = (query,by)=>{
-        console.log('doSearch')
-          this.props.history.push('/job/?wordsKey='+by+'&words='+query)
+
+      sortChange = (e)=>{
+        const sortBy = e.target.value
+        console.log(sortBy);
         
+        this.setState({sortBy})
       }
+
+      modeChange = (e)=>{
+        const mode = e.target.value
+        console.log(mode);
+        
+        this.setState({mode})
+      }
+      // doSearch = (query,by)=>{
+      //   console.log('doSearch')
+      //     this.props.history.push('/job/?wordsKey='+by+'&words='+query)
+      // }
 
       buttonPress = async(page)=>{
         this.setState({isLoading:true})
@@ -64,42 +79,77 @@ class ListJob extends Component {
             page_count: data.info.page_count,
             isLoading:false})
         })
-        console.log('prev ' + this.state.prev)
-        console.log('next ' + this.state.next)
       }
+        searching = async(wordsKey,words)=>{
+          console.log('searching.....'+wordsKey+','+words)
+         let page='http://localhost:5000/job/?wordsKey='+wordsKey+'&words='+words;
+          this.setState({isLoading:true})
+          this.getData(page).then(data=>{
+            this.setState({data,
+              prev: data.info.prev,
+              next: data.info.next,
+              hasPrev: data.info.hasPrev,
+              hasNext: data.info.hasNext,
+              page_count: data.info.page_count,
+              isLoading:false})
+          })
+        }
+
+        sorting = async(sortBy,mode)=>{
+          console.log('searching.....  '+sortBy+','+mode)
+         let page='http://localhost:5000/job/?sortBy='+sortBy+'&mode='+mode;
+          this.setState({isLoading:true})
+          this.getData(page).then(data=>{
+            this.setState({data,
+              prev: data.info.prev,
+              next: data.info.next,
+              hasPrev: data.info.hasPrev,
+              hasNext: data.info.hasNext,
+              page_count: data.info.page_count,
+              isLoading:false})
+          })
+        }
+
+        goToDetail = (id)=>{
+          console.log('goto detail..');
+          this.props.history.push('/detailjob/'+id)
+        }
+      
 
     render() {
-      const data2 = qs.parse(this.props.location.search.slice(1))
+     // const data2 = qs.parse(this.props.location.search.slice(1))
       const { data, prev, next,hasNext,hasPrev,page_count,query,by, isLoading, isError } = this.state;
-        return (
-         
+        return (  
           <Jumbotron fluid>
             <Container fluid>
-            <div>
-          Search {data2.name}
-          </div>
   
         {isLoading&&(
-          <Col>Loading...</Col>  
+          
+          <Container fluid>
+            <div mx-auto>
+            <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />
+            </div>
+          </Container>
         )}
-      
       {isError&&(
           <p>Error, please try again</p>
         )}
         {!isLoading&&
           <React.Fragment>
             <div class="row">
-            <div class="col-6 mx-auto">
+            <div class="col-9 mb-3">
             <div class="card mb-3">
             <div class="col">
               <div class="card-body">
               <div class="input-group">
-  <input type="text" placeholder="Key Search" onChange={this.queryChange} value={query} aria-label="First name" height="30" class="form-control"></input>
-  <input type="text" placeholder="Name or Company"  onKeyDown={(e)=>this.doSearch(e,this.state.query,by)}  onChange={this.byChange} value={this.state.by} aria-label="Last name" width='40' class="form-control"></input>
+  <input type="text" placeholder="Search..." onChange={this.queryChange} value={query} aria-label="First name"  class="form-control form-control-lg"></input>
+  <select onClick={this.byChange} class="form-control form-control-lg">
+               <option value="name">Job Name</option>
+               <option value="company">Company</option>
+              </select>
   <button type="button" class="btn btn-primary" 
-  onKeyDown={(e)=>this.doSearch(e,query,this.state.by)} 
-  onClick={()=>this.doSearch(query,this.state.by)} >CARI</button>
-  <Button as="" type="button" value="Input" />
+  // onKeyDown={(e)=>this.doSearch(e,this.state.query,this.state.by)} 
+  onClick={()=>this.searching(this.state.by,this.state.query)} >CARI</button>
 </div>
                 </div>
                 </div>
@@ -118,14 +168,10 @@ class ListJob extends Component {
             <div class="col-md-3">
             <img onClick={()=>this.goToDetail(v.id)} src={v.logo} alt={v.name} style={{display:'block'}}/>
             </div>
-            <div class="row">
-              <div class="col">
-              {v.count_data}
-              </div>
-              </div>
+          
             <div class="col-md-9">
               <div class="card-body">
-                <h4 class="card-title">{v.name}</h4>
+              <Link onClick={()=>this.goToDetail(v.id)}></Link>  <h4 class="card-title">{v.name}</h4>
                 <p class="card-text"><small class="text-absolute">{v.company}</small></p>
                 <p class="card-text"><small class="text-muted">{v.location}</small></p>
                 <p class="card-text">{v.description}</p>
@@ -134,7 +180,7 @@ class ListJob extends Component {
                 <p class="card-text"><small class="text-muted">{v.date_added}</small></p>
                 </div>
                 <div class="col-4">
-               <a class="btn btn-outline-primary" href="#"> <p class="card-text"><small class="text-muted">Detail</small><img width="20px" src="https://img.icons8.com/plasticine/100/000000/arrow.png"></img></p></a>
+               <Link onClick={()=>this.goToDetail(v.id)}><a class="btn btn-outline-primary" href="#"> <p class="card-text"><small class="text-muted">Detail</small><img width="20px" src="https://img.icons8.com/plasticine/100/000000/arrow.png"></img></p></a></Link>
                 </div>
                 </div>
               </div>
@@ -162,8 +208,24 @@ class ListJob extends Component {
             <div class="col-3">
               <div class="card w-100">
             <div class="col-md-20">
-              <div class="card-body">
-                <h5 class="card-title">Company</h5>
+              <div class="card-body float-center">
+                <h5 class="card-title">Sorting Job</h5>
+                <form class="form-inline">
+                <div class="form-group mb-2">
+               <select  onClick={this.sortChange} class="form-control form-control-sm">
+               <option value="name">Job Name</option>
+               <option value="category">Category</option>
+               <option value="date_added">Date Added</option>
+              </select>
+              <select onClick={this.modeChange} class="form-control form-control-sm">
+               <option value="asc">Ascending</option>
+               <option value="desc">Descendng</option>
+              </select>
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+  </div>
+  <button onClick={()=>this.sorting(this.state.sortBy,this.state.mode)} type="submit" class="btn btn-primary mb-2">Sort</button>
+</form>
               </div>
               </div>
               </div>

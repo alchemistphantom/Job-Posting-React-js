@@ -3,6 +3,7 @@ import {BrowserRouter,Route,Switch} from 'react-router-dom'
 
 import Home from './pages/Home'
 import Login from './pages/Login'
+import DetailJob from './pages/DetailJob'
 import Register from './pages/Register'
 import ListJob from './pages/ListJob'
 import MainNavigation from './component/navigation/MainNavigation'
@@ -14,13 +15,12 @@ export default class App extends Component {
     return (
       <BrowserRouter>
       <MainNavigation/>
-     
-      
         <Switch>
           <Route path='/' component={Home} exact />
           <Route path='/login' component={Login} exact />
           <Route path='/register' component={Register} />
-          <Route path='/job' component={ListJob} />
+          <Route path='/job/' component={ListJob} />
+          <Route path='/detailjob/:id' component={DetailJob} />
 
         </Switch>
         <Footer/>
