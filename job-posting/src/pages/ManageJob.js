@@ -3,6 +3,7 @@ import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {Row, Col, Container, Button, Jumbotron, Spinner} from 'reactstrap'
 import qs from 'qs'
+
 class ListJob extends Component {
 
     constructor(props){
@@ -30,6 +31,7 @@ class ListJob extends Component {
             page_count: data.info.page_count,
             isLoading:false})
         })
+       
       }
       getData = async(page)=>{
         const allJob = await axios.get(page!==undefined?page:'http://localhost:5000/job/?')
@@ -39,6 +41,19 @@ class ListJob extends Component {
         console.log(allJob.data)
         return allJob.data;
       }
+
+      delData = async(id)=>{
+        if(window.confirm('are you sure delete this company?')){
+       await axios.delete('http://localhost:5000/job/'+id)
+        .catch(err=>{
+          this.setState({ isLoading: false, isError: true })
+        })
+      }
+        
+        
+       
+      }
+
 
       queryChange = (e)=>{
         const query = e.target.value
@@ -59,7 +74,6 @@ class ListJob extends Component {
       modeChange = (e)=>{
         const mode = e.target.value
         console.log(mode);
-        
         this.setState({mode})
       }
       // doSearch = (query,by)=>{
@@ -109,7 +123,13 @@ class ListJob extends Component {
           })
         }
 
-        goToDetail = (id)=>{
+        goToEdit = (id)=>{
+          console.log('goto detail..');
+          this.props.history.push('/editjob/'+id)
+        }
+
+
+        delete = (id)=>{
           console.log('goto detail..');
           this.props.history.push('/detailjob/'+id)
         }
@@ -170,18 +190,32 @@ class ListJob extends Component {
           
             <div class="col-md-9">
               <div class="card-body">
-              <Link onClick={()=>this.goToDetail(v.id)}></Link>  <h4 class="card-title">{v.name}</h4>
+                <div class="row">
+                  <div class="col" >
+              <Link onClick={()=>this.delData(v.id)}></Link><h4 class="card-title">{v.name}</h4>
+              </div>
+              <div class="col-3 mb4" >
+              
+                 <button onClick={()=>this.delData(v.id)} class="btn btn-outline-danger"> 
+                 <p class="card-text"><small class="text-muted">Hapus</small>
+                </p></button>-||-
+
+                 <Link onClick={()=>this.goToEdit(v.id)}>
+                 <a class="btn btn-outline-primary" href="#"> 
+                 <p class="card-text"><small class="text-muted">Edit</small>
+                </p></a></Link>  
+
+                
+                </div>
+                
+                
+                </div>
                 <p class="card-text"><small class="text-absolute">{v.company}</small></p>
                 <p class="card-text"><small class="text-muted">{v.location}</small></p>
                 <p class="card-text">{v.description}</p>
-                <div class="row">
-                  <div class="col" >
+                
                 <p class="card-text"><small class="text-muted">{v.date_added.toLocaleString().replace(/T/, ' ').replace(/\..+/, '')}</small></p>
-                </div>
-                <div class="col-4">
-               <Link onClick={()=>this.goToDetail(v.id)}><a class="btn btn-outline-primary" href="#"> <p class="card-text"><small class="text-muted">Detail</small><img width="20px" src="https://img.icons8.com/plasticine/100/000000/arrow.png"></img></p></a></Link>
-                </div>
-                </div>
+               
               </div>
             </div>
           </div>

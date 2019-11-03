@@ -5,7 +5,7 @@ class DetailJob extends Component {
         super(props)
         this.state = {
         id: this.props.match.params.id,
-        data: {}
+        data: {},
         }
       }
       componentDidMount(){

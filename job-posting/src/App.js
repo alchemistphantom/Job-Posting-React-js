@@ -8,6 +8,9 @@ import Register from './pages/Register'
 import ListJob from './pages/ListJob'
 import MainNavigation from './component/navigation/MainNavigation'
 import Footer from './component/navigation/footer'
+import ManageJob from './pages/ManageJob'
+import EditJob from './pages/EditJob'
+import addJob from './pages/addJob'
 
 
 export default class App extends Component {
@@ -20,8 +23,10 @@ export default class App extends Component {
           <Route path='/login' component={Login} exact />
           <Route path='/register' component={Register} />
           <Route path='/job/' component={ListJob} />
-          <Route path='/detailjob/:id' component={DetailJob} />
-
+          <Route path='/detailjob/:id' component={DetailJob}/>
+          <Route path='/managejob' component={ManageJob}/>
+          <Route path='/editjob/:id' component={EditJob}/>
+          <Route path='/addjob/' component={addJob}/>
         </Switch>
         <Footer/>
       </BrowserRouter>

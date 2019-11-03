@@ -6,7 +6,7 @@ class MainNavigation extends Component {
     render() {
         return (
   <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <a class="navbar-brand col-md-9" ><Link to='/'><h4>Job Posting</h4></Link></a>
+  <a class="navbar-brand col-md-7" ><Link to='/'><h4>Job Posting</h4></Link></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -15,6 +15,13 @@ class MainNavigation extends Component {
      
       <li class="nav-item ">
         <a class="nav-link" ><Link to='/job'>Job List</Link> <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" ><Link to='/managejob'>Manage Job</Link> <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item ">
+        <a class="nav-link" ><Link to='/addjob'>add new Job</Link> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active col-md-3">
         <button type="button" class="btn btn-outline-primary"><Link to='/login'>Login</Link> <span class="sr-only">(current)</span></button>

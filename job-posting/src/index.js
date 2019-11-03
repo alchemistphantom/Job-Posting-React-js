@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './asset/css/themify-icons.css'
-import './asset/css/metisMenu.css'
 import './asset/css/slicknav.min.css'
 import './asset/css/typography.css'
 import './asset/css/responsive.css'

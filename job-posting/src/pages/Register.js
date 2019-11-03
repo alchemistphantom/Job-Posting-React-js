@@ -70,15 +70,13 @@ class Register extends Component {
 
     render() {
         return (
-
    
   <div class="container">
     <div class="row">
       
-        <div class="">
-         
+        <div class="col mx-auto">
             <h5 class="card-title text-center">Register</h5>
-            <form class="" onSubmit={this.handlerSubmit}>
+            <form class="form" onSubmit={this.handlerSubmit}>
               <div class="form-label-group">
                 <input type="email" name="email" id="inputEmail" onChange={this.handlerChange} value={this.state.email}  class="form-control" placeholder="Email address" required autofocus/>
               </div>
@@ -93,7 +91,7 @@ class Register extends Component {
               <div class="custom-control custom-checkbox mb-3">
                 <input type="checkbox" class="custom-control-input" id="customCheck1"/>
               </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
               </form>
          
         </div>
