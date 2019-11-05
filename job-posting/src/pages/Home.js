@@ -20,7 +20,7 @@ class Home extends Component {
   // onKeyDown={(e)=>this.doSearch(e,this.state.query,this.state.by)} 
   >CARI</button>
 </div>
-                </div>
+        </div>
                 </div>
             </div>
             </div>

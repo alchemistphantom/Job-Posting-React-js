@@ -71,7 +71,7 @@ class addJob extends Component {
                       <div class="form-group">
                         <input type="text" name="name" id="name" onChange={this.handlerChange}
                           value={this.state.name}   class="form-control"
-                           placeholder="nams" required autofocus/>
+                           placeholder="nama" required autofocus/>
                       </div>
         
                       <div class="form-group">

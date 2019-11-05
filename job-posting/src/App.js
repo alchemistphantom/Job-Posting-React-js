@@ -11,6 +11,7 @@ import Footer from './component/navigation/footer'
 import ManageJob from './pages/ManageJob'
 import EditJob from './pages/EditJob'
 import addJob from './pages/addJob'
+import company from './pages/company'
 
 
 export default class App extends Component {
@@ -27,6 +28,7 @@ export default class App extends Component {
           <Route path='/managejob' component={ManageJob}/>
           <Route path='/editjob/:id' component={EditJob}/>
           <Route path='/addjob/' component={addJob}/>
+          <Route path='/company/' component={company}/>
         </Switch>
         <Footer/>
       </BrowserRouter>

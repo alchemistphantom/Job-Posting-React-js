@@ -44,7 +44,10 @@ class ListJob extends Component {
 
       delData = async(id)=>{
         if(window.confirm('are you sure delete this company?')){
-       await axios.delete('http://localhost:5000/job/'+id)
+        axios.delete('http://localhost:5000/job/'+id)
+       .then(res=>{
+        this.props.history.push('/')
+       })
         .catch(err=>{
           this.setState({ isLoading: false, isError: true })
         })
@@ -251,8 +254,8 @@ class ListJob extends Component {
                <option value="date_added">Date Added</option>
               </select>
               <select onClick={this.modeChange} class="form-control form-control-sm">
-               <option value="asc">Ascending</option>
-               <option value="desc">Descendng</option>
+               <option value="asc">A-Z</option>
+               <option value="desc">Z-A</option>
               </select>
   </div>
   <div class="form-group mx-sm-3 mb-2">
@@ -264,7 +267,6 @@ class ListJob extends Component {
               </div>
               </div>
             </div>
-
           </React.Fragment>
         }
         </Container>

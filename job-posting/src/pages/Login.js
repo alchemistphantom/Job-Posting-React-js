@@ -26,7 +26,7 @@ class Login extends Component {
           email: this.state.name,
           password: this.state.password
         }
-         axios.get('http://localhost:5000/User/', {data})
+         axios.post('http://localhost:5000/User/', {data})
         .then((res)=>{
             console.log(res)
             alert(res);
@@ -45,12 +45,21 @@ class Login extends Component {
 
       handlerSubmit = (event)=>{
        event.preventDefault();
-       axios.post('http://localhost:5000/User/', this.state)
+       axios.post('http://localhost:5000/User/login/', this.state)
       .then((res)=>{
-          console.log(res)
-          alert(res);
+
+        if(res.data.status==200){
+          this.props.history.push('/');
+          localStorage.setItem('Authorization',res.data.token)
+          // window.location.reload()
+          alert('Succes to Login')
+        }else{
+          alert('Email or Password is incorrect')
+        }
+         
       })
       .catch(err=>{
+       
         console.log(err)
        
         this.setState({ isLoading: false, isError: true })
@@ -77,11 +86,15 @@ class Login extends Component {
           <div class="card-body">
             <h5 class="card-title text-center">Sign In</h5>
             <form class="form-signin" onSubmit={this.handlerSubmit}>
+              
               <div class="form-label-group">
-                <input type="email" name="email" id="inputEmail" onChange={this.handlerChange} value={this.state.email}  class="form-control" placeholder="Email address" required autofocus/>
+                <input type="email" name="email" id="inputEmail" onChange={this.handlerChange}
+                 value={this.state.email} class="form-control" placeholder="Email address" required autofocus/>
               </div>
+              
               <div class="form-label-group">
-                <input type="password" name="password" onChange={this.handlerChange} value={this.state.password} class="form-control"  placeholder="Password" required/>
+                <input type="password" name="password" onChange={this.handlerChange} 
+                value={this.state.password} class="form-control"  placeholder="Password" required/>
               </div>
 
               <div class="custom-control custom-checkbox mb-3">
