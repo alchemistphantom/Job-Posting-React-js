@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './asset/css/themify-icons.css'
-import './asset/css/slicknav.min.css'
-import './asset/css/typography.css'
-import './asset/css/responsive.css'
 import * as serviceWorker from './serviceWorker';
+
+import "./asset/css/sb-admin.min.css"
+import './asset/vendor/fontawesome-free/css/all.min.css'
+import './asset/css/sb-admin.css'
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

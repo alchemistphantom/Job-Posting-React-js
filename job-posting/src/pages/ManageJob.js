@@ -52,9 +52,6 @@ class ListJob extends Component {
           this.setState({ isLoading: false, isError: true })
         })
       }
-        
-        
-       
       }
 
 

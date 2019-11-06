@@ -12,6 +12,7 @@ import ManageJob from './pages/ManageJob'
 import EditJob from './pages/EditJob'
 import addJob from './pages/addJob'
 import company from './pages/company'
+import utama from './pages/utama'
 
 
 export default class App extends Component {
@@ -29,6 +30,7 @@ export default class App extends Component {
           <Route path='/editjob/:id' component={EditJob}/>
           <Route path='/addjob/' component={addJob}/>
           <Route path='/company/' component={company}/>
+          <Route path='/utama/' component={utama}/>
         </Switch>
         <Footer/>
       </BrowserRouter>

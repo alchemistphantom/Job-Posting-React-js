@@ -38,10 +38,6 @@ class EditJob extends Component {
      }
 
      handlerSubmit = (event)=>{
-        const { gender, phone, address, cityId, image, signature } = this.state;
-        const fd = new FormData();
-        fd.append('image', image, image.name);
-
          console.log(this.state.name)
       event.preventDefault();
       axios.patch('http://localhost:5000/job/'+this.state.id, this.state)
